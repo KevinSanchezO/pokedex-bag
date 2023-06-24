@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <title>Pokedex</title>
+    <link rel="icon" href="/pokeball.ico">
+</head>
+<body>
+    <div class="pokedex-container">
+        <div class="back-pack">
+            <img src="/backpack.png" alt="Backpack Image" class="backpack-image">
+        </div>
+        <div class="pokedex-header">
+            <div class="pokedex-header-title">
+                <h1>Pokedex</h1>
+            </div>
+
+            <div class="instruct">
+                <p>
+                    Search a pokemon by its ID and press the pokeball to see it <br>
+                    Press the lure module to lure a random pokemon in the wild
+                </p>
+            </div>
+
+            <div class="pokedex-search">
+                <form action="" id="searchIDPokemon">
+                    <input type="text" id="search-input" placeholder="Search Pokemon...">    
+                </form>
+                <button class="search-button" id="searchButton"></button>
+                <button class="random-button" id="randomButton"></button>
+            </div>
+
+            <div class="gen-buttons">
+                <button class="gen-button" data-gen="1">Gen 1</button>
+                <button class="gen-button" data-gen="2">Gen 2</button>
+                <button class="gen-button" data-gen="3">Gen 3</button>
+                <button class="gen-button" data-gen="4">Gen 4</button>
+                <button class="gen-button" data-gen="5">Gen 5</button>
+                <button class="gen-button" data-gen="6">Gen 6</button>
+                <button class="gen-button" data-gen="7">Gen 7</button>
+            </div>
+        </div>
+        
+        <div class="pokedex-content" id="pokedexContent">
+        </div>
+
+        <button class="back-top" id="back-to-top"></button>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>

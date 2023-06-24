@@ -1,0 +1,180 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1e1e2e;
+}
+
+/* Carga la fuente pixel art para la página */
+@font-face {
+    font-family: "PixelFont";
+    src: url("PressStart2P.ttf") format("truetype");
+}
+
+/* Contenedor principal */
+.pokedex-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Clase para la barra lateral */
+.back-pack {
+  position: fixed;
+  top: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: #2f61f4;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.backpack-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 20px; /* Adjust the top margin as needed */
+}
+
+/* Clase para el encabezado de la página */
+.pokedex-header {
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 250px; /* Ancho de la barra lateral */
+    text-align: center;
+    background-color: #27293d;
+  }
+
+  .pokedex-header-title h1 {
+    padding: 10px;
+    font-family: "PixelFont", sans-serif;
+    font-size: 32px;
+    margin: 0;
+    color: #F4EEE0
+  }
+  
+  /* Clase para el contenido principal */
+  .pokedex-content {
+    margin-left: 250px; /* Ancho de la barra lateral */
+    text-align: center;
+
+    font-family: "PixelFont", sans-serif;
+    font-size: 16px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+    padding: 40px;
+  }
+  
+  /* Botón de regreso arriba */
+  .back-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-image: url('upArrow.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    border: none;
+    background-color: transparent;
+    }
+  
+  /* Estilos adicionales */
+  .instruct {
+    font-family: "PixelFont", sans-serif;
+    font-size: 10px;
+    margin-bottom: 10px;
+    color: #F4EEE0
+  }
+  
+  .pokedex-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .search-button {
+    width: 50px;
+    height: 50px;
+    background-image: url('pokeballSearch.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    border: none;
+    background-color: transparent;
+    margin-right: 10px;
+  }
+  
+  .random-button {
+    width: 50px;
+    height: 50px;
+    background-image: url('lurePokemon.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    border: none;
+    background-color: transparent;
+  }
+  
+  #search-input {
+    font-family: "PixelFont", sans-serif;
+    font-size: 16px;
+    width: 300px;
+    padding: 5px;
+  }
+
+
+/* Pokemon cards*/
+
+.pokemon-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.pokemon-card p {
+  margin: 10px;
+  text-align: center;
+}
+
+.pokemon-card h3 {
+  margin: 10px;
+  text-align: center;
+}
+
+.pokemon-types {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Generation buttons */
+
+.gen-buttons {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.gen-button {
+  display: inline-block;
+  margin: 5px;
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #3a69f7;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.gen-button:hover {
+  background-color: #1c41b1;
+}
+
+.gen-button.active {
+  background-color: #2db11c;
+  color: #ffffff;
+}
