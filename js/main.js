@@ -6,16 +6,23 @@ const weightLimit = 25.0;
 const pokemonLimit = 6;
 
 const percentOperation = 0.9;
+
 /* Pokedex content */
 const pokemonContainer = document.querySelector('.pokedex-content');
 const backpackContainer = document.querySelector('.backpack-content')
 const backToTopButton = document.querySelector('#back-to-top');
+const creatorTitle = document.querySelector('.creator');
 
 const searchButton = document.querySelector('#searchButton');
 searchButton.addEventListener('click', searchPokemon);
 
+const randomButton = document.querySelector('#randomButton');
+randomButton.addEventListener('click', obtainRandomId);
+
 const actualWeightBackpack = document.querySelector('.operation')
 actualWeightBackpack.textContent = `Backpack weight: ${backpackWeight}`;
+
+
 
 let offset = 20;
 let isGenerationSelected = false; // Track if a generation is selected
@@ -26,8 +33,12 @@ backToTopButton.addEventListener('click', () => {
     window.scrollTo({
         top: 0,
         behavior: 'smooth'
-    })
-})
+    });
+});
+
+creatorTitle.addEventListener('click', () => {
+  window.location.assign("https://github.com/KevinSanchezO");
+});
 
 /*
 It fetches resources from the pokeapi of a specific pokemon.
@@ -81,11 +92,28 @@ async function lenPokemons() {
     return data.count;
 }
 
+/* Obtains a random pokemon ID, clears the container of the cards and shows the
+pokemon that has that random ID */
+async function obtainRandomId() {
+  const count = await lenPokemons();
+  id = Math.floor((Math.random() * count) + 1) - 273;
+
+  pokemonContainer.innerHTML = '';
+  fetchPokemon(id)
+    .then((pokemon) => {
+      createPokemonCard(pokemon);
+    })
+}
+
+/* Checks if the pokemon can be added to the backpack, the sum of the weight of previous
+pokemons inside backpack cannot surpass 25.0 and there cannot be more than 6 pokemons */
 function checkSaveBackpack(pokemon) {
   const weightValue = parseFloat((pokemon.weight / 10).toFixed(1));
   const pokeballWeight = parseFloat((weightValue - (weightValue * percentOperation)).toFixed(1));
 
   if (backpackWeight + pokeballWeight <= weightLimit && pokemonsInBackpack.length < pokemonLimit) {
+    
+    // creates a pokemon object to only use the desired data
     pokemonObj = {
       id: pokemonsInBackpack.length,
       sprite: pokemon.sprites.front_default,
@@ -102,41 +130,54 @@ function checkSaveBackpack(pokemon) {
   }
 }
 
+/* It deletes the cards inside the backpack when they are clicked, it's called by the event listener */
 function deleteCard(pokemon) {
   const newArray = pokemonsInBackpack.filter(item => item !== pokemon);
   pokemonsInBackpack = newArray;
 
   backpackContainer.innerHTML = '';
   backpackWeight = 0.0;
+
+  if (pokemonsInBackpack.length == 0) {
+    actualWeightBackpack.textContent = `Backpack weight: ${backpackWeight}`;
+  }
+
   pokemonsInBackpack.forEach((pokemon) => {
     createPokemonBackpackCard(pokemon);
   });
 }
 
+/* Creates the cards inside the backpack */
 function createPokemonBackpackCard(pokemon) {
+  //container of the elements inside the card
   const card = document.createElement('div');
   card.classList.add('pokemon-backpack-card');
   card.style.backgroundColor = colors[pokemon.types[0].type.name];
 
+  /* When the card is clicked it deletes it from the backpack */
   card.addEventListener('click', () => {
     const clickedPokemon = pokemon;
     deleteCard(clickedPokemon);
   });
 
+  // container of the image of the pokemon
   const spriteContainter = document.createElement('div');
   spriteContainter.classList.add('image-backpack-container');
   const sprite = document.createElement('img');
   sprite.src = pokemon.sprite;
   spriteContainter.appendChild(sprite);
 
+  // container of the name
   const name = document.createElement('h3');
   name.classList.add('info-pokemon');
   name.textContent = pokemon.name;
 
+  // container of the weight inside the pokeball
   const weight = document.createElement('p');
   weight.textContent = `Weight: ${pokemon.weight} kg`;
   weight.classList.add('pokeball-weight');
 
+  // container of both name and weight to place them easily
   const cardContent = document.createElement('div');
   cardContent.classList.add('card-content');
   cardContent.appendChild(name);
@@ -157,6 +198,7 @@ function createPokemonCard(pokemon) {
     card.classList.add('pokemon-card');
     card.style.backgroundColor = colors[pokemon.types[0].type.name];
 
+    /* When the card is pressed the pokemon is saved inside the backpack */
     card.addEventListener('click', () => {
       const clickedPokemon = pokemon;
       checkSaveBackpack(clickedPokemon);
@@ -235,7 +277,7 @@ const colors = {
     poison: '#c97dc7',
     electric: '#f7e96f',
     ground: '#966859',
-	rock: '#9c9c9c',
+	  rock: '#9c9c9c',
     psychic: '#fcacc4',
     ice: '#acfcf4',
     bug: '#abf5d4',
@@ -243,7 +285,8 @@ const colors = {
     steel: '#8a8a8a',
     dragon: '#ff7452',
     dark: '#7475a8',
-    fairy: '#ff9cf8'
+    fairy: '#ff9cf8',
+    flying: '#e9ffbf'
 }
 
 /* Obtains the value of the input section to search the pokemon by id, if blank it shows 'em all */
