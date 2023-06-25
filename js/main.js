@@ -1,9 +1,21 @@
+/* Backpack containter */
+let pokemonsInBackpack = [];
+let backpackWeight = 0.0;
+
+const weightLimit = 25.0;
+const pokemonLimit = 6;
+
+const percentOperation = 0.9;
+/* Pokedex content */
 const pokemonContainer = document.querySelector('.pokedex-content');
+const backpackContainer = document.querySelector('.backpack-content')
 const backToTopButton = document.querySelector('#back-to-top');
 
 const searchButton = document.querySelector('#searchButton');
 searchButton.addEventListener('click', searchPokemon);
 
+const actualWeightBackpack = document.querySelector('.operation')
+actualWeightBackpack.textContent = `Backpack weight: ${backpackWeight}`;
 
 let offset = 20;
 let isGenerationSelected = false; // Track if a generation is selected
@@ -69,11 +81,86 @@ async function lenPokemons() {
     return data.count;
 }
 
+function checkSaveBackpack(pokemon) {
+  const weightValue = parseFloat((pokemon.weight / 10).toFixed(1));
+  const pokeballWeight = parseFloat((weightValue - (weightValue * percentOperation)).toFixed(1));
+
+  if (backpackWeight + pokeballWeight <= weightLimit && pokemonsInBackpack.length < pokemonLimit) {
+    pokemonObj = {
+      id: pokemonsInBackpack.length,
+      sprite: pokemon.sprites.front_default,
+      name: pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1),
+      types: pokemon.types,
+      weight: pokeballWeight
+    };
+
+    pokemonsInBackpack.push(pokemonObj)
+
+    createPokemonBackpackCard(pokemonObj);
+  } else {
+    alert('No more pokemons can be added to the backpack.');
+  }
+}
+
+function deleteCard(pokemon) {
+  const newArray = pokemonsInBackpack.filter(item => item !== pokemon);
+  pokemonsInBackpack = newArray;
+
+  backpackContainer.innerHTML = '';
+  backpackWeight = 0.0;
+  pokemonsInBackpack.forEach((pokemon) => {
+    createPokemonBackpackCard(pokemon);
+  });
+}
+
+function createPokemonBackpackCard(pokemon) {
+  const card = document.createElement('div');
+  card.classList.add('pokemon-backpack-card');
+  card.style.backgroundColor = colors[pokemon.types[0].type.name];
+
+  card.addEventListener('click', () => {
+    const clickedPokemon = pokemon;
+    deleteCard(clickedPokemon);
+  });
+
+  const spriteContainter = document.createElement('div');
+  spriteContainter.classList.add('image-backpack-container');
+  const sprite = document.createElement('img');
+  sprite.src = pokemon.sprite;
+  spriteContainter.appendChild(sprite);
+
+  const name = document.createElement('h3');
+  name.classList.add('info-pokemon');
+  name.textContent = pokemon.name;
+
+  const weight = document.createElement('p');
+  weight.textContent = `Weight: ${pokemon.weight} kg`;
+  weight.classList.add('pokeball-weight');
+
+  const cardContent = document.createElement('div');
+  cardContent.classList.add('card-content');
+  cardContent.appendChild(name);
+  cardContent.appendChild(weight);
+
+  card.appendChild(spriteContainter);
+  card.appendChild(cardContent);
+
+  backpackContainer.appendChild(card);
+
+  backpackWeight = parseFloat((backpackWeight + pokemon.weight).toFixed(1));
+  actualWeightBackpack.textContent = `Backpack weight: ${backpackWeight}`;
+}
+
 function createPokemonCard(pokemon) {
     //Container of all the elements of the pokemon, can be seen as a card
     const card = document.createElement('div');
     card.classList.add('pokemon-card');
     card.style.backgroundColor = colors[pokemon.types[0].type.name];
+
+    card.addEventListener('click', () => {
+      const clickedPokemon = pokemon;
+      checkSaveBackpack(clickedPokemon);
+    });
     
     //Container of the image sprite of the pokemon
     const spriteContainter = document.createElement('div');
@@ -106,14 +193,24 @@ function createPokemonCard(pokemon) {
 
     // Weight of the pokemon
     const weight = document.createElement('p');
-    weight.textContent = `Weight: ${pokemon.weight} kg`;
+    
+    weight.textContent = `Weight: ${(pokemon.weight / 10).toFixed(1)} kg`;
     weight.classList.add('pokemon-weight');
+
+    // Weight of pokemon inside a pokeball
+    const weightValue = parseFloat((pokemon.weight / 10).toFixed(1));
+    const pokeballWeight = parseFloat((weightValue - (weightValue * percentOperation)).toFixed(1));
+
+    const weightPokeball = document.createElement('p');
+    weightPokeball.textContent = `Pokeball weight: ${pokeballWeight} kg`;
+    weightPokeball.classList.add('pokeball-weight')
 
     card.appendChild(spriteContainter)
     card.appendChild(number)
     card.appendChild(name)
     card.appendChild(types);
     card.appendChild(weight);
+    card.appendChild(weightPokeball);
 
     pokemonContainer.appendChild(card);
 }
@@ -203,7 +300,7 @@ function fetchPokemonsByGeneration(gen) {
     offset = startId - 1;
     pokemonContainer.innerHTML = '';
     fetchPokemons(endId - startId + 1, offset);
-  }
+}
 
 
 function getStartIdByGeneration(gen) {

@@ -16,25 +16,6 @@ body {
     flex-direction: column;
 }
 
-/* Clase para la barra lateral */
-.back-pack {
-  position: fixed;
-  top: 0;
-  width: 250px;
-  height: 100vh;
-  background-color: #2f61f4;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.backpack-image {
-  max-width: 100%;
-  height: auto;
-  margin-top: 20px; /* Adjust the top margin as needed */
-}
-
 /* Clase para el encabezado de la página */
 .pokedex-header {
     align-items: center;
@@ -129,7 +110,6 @@ body {
 /* Pokemon cards*/
 
 .pokemon-card {
-  background-color: #ffffff;
   border-radius: 8px;
   padding: 20px;
 }
@@ -149,6 +129,10 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   text-align: center;
+}
+
+.pokeball-weight {
+  font-size: 10px;
 }
 
 /* Generation buttons */
@@ -174,7 +158,85 @@ body {
   background-color: #1c41b1;
 }
 
-.gen-button.active {
-  background-color: #2db11c;
+/* Backpack */
+/* Clase para la barra lateral */
+.back-pack {
+  position: fixed;
+  top: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: #2f61f4;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.backpack-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 20px; /* Adjust the top margin as needed */
+}
+
+.instruct-p{
+  font-family: "PixelFont", sans-serif;
+  font-size: 10px;
+  text-align: center;
+}
+
+.operation {
+  font-family: "PixelFont", sans-serif;
+  font-size: 10px;
+  text-align: center;
+}
+
+/* Backpack cards */
+
+.back-pack {
+  position: fixed;
+  top: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: #2f61f4;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.instruct-p {
   color: #ffffff;
+}
+
+.operation {
+  color: #ffffff;
+}
+
+.pokemon-backpack-card {
+  border-radius: 8px;
+  display: flex; 
+  align-items: center; 
+  padding: 10px; /* Added for spacing */
+  margin-bottom: 10px; /* Added for spacing */
+}
+
+.image-backpack-container {
+  margin-right: 10px; /* Added for spacing */
+}
+
+.info-pokemon {
+  font-family: "PixelFont", sans-serif;
+  font-size: 12px;
+  margin-bottom: 5px; /* Added for spacing */
+}
+
+.pokeball-weight {
+  font-family: "PixelFont", sans-serif;
+  font-size: 8px;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
 }
